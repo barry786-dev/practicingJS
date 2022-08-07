@@ -67,3 +67,9 @@ const taxAdjustedPrices = prices.map((price, idx) => {
   return { index: idx, taxAdjPrice: price * (1 + tax) };
 });
 console.log(taxAdjustedPrices);
+
+const sortedPrices = prices.sort((a, b) => a - b);
+console.log(sortedPrices);
+sortedPrices.reverse();
+
+const filteredPrices = prices.filter((price) => price > 5);
