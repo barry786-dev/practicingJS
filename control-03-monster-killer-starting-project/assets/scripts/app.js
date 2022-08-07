@@ -1,0 +1,112 @@
+const ATTACK_VALUE = 10;
+const MONSTER_ATTACK_VALUE = 15;
+const HEAL_VALUE = 20;
+
+const enteredValue = prompt('Maximum life for you and the monster', '100');
+
+let chosenMaxLife = parseInt(enteredValue);
+let battleLog = [];
+
+if (chosenMaxLife <= 0 || isNaN(chosenMaxLife)) {
+  alert('You should enter a number as Maximum life ');
+  giveUpHandler();
+}
+let currentMonsterHealth = chosenMaxLife;
+let currentPlayerHealth = chosenMaxLife;
+let hasBonusLife = true;
+
+adjustHealthBars(chosenMaxLife);
+
+function giveUpHandler() {
+  window.location.reload();
+}
+
+function logHandler() {
+  alert(
+    `Player health: ${currentPlayerHealth} \n` +
+      `Monster health: ${currentMonsterHealth}`
+  );
+
+  /*  let i = 0;
+   for (const logEntry of battleLog) {
+     if ((!lastLoggedEntry && lastLoggedEntry !== 0) || lastLoggedEntry < i) {
+       console.log(`#${i}`);
+       for (const key in logEntry) {
+         console.log(`${key} => ${logEntry[key]}`);
+       }
+       lastLoggedEntry = i;
+       break;
+     }
+     i++;
+   } */
+}
+
+function restartGame() {
+  resetGame(chosenMaxLife);
+  currentMonsterHealth = chosenMaxLife;
+  currentPlayerHealth = chosenMaxLife;
+  hasBonusLife = true;
+  bonusLifeEl.style.display = 'inline-block';
+}
+
+function winnerCheck() {
+  const initialPlayerHealth = currentPlayerHealth;
+  const playerDamage = dealPlayerDamage(MONSTER_ATTACK_VALUE);
+  currentPlayerHealth -= playerDamage;
+  if (currentPlayerHealth <= 0 && hasBonusLife) {
+    hasBonusLife = false;
+    removeBonusLife();
+    currentPlayerHealth = initialPlayerHealth;
+    setPlayerHealth(initialPlayerHealth);
+  }
+  if (currentMonsterHealth <= 0 && currentPlayerHealth > 0) {
+    alert('You won!');
+  } else if (currentPlayerHealth <= 0 && currentMonsterHealth > 0) {
+    alert('You lost!');
+  } else if (currentMonsterHealth <= 0 && currentPlayerHealth <= 0) {
+    alert('You have a draw!');
+  }
+
+  if (currentMonsterHealth <= 0 || currentPlayerHealth <= 0) {
+    restartGame();
+  }
+}
+
+function attackMonster(mode) {
+  let maxDamage;
+  if (mode === 'ATTACK') {
+    maxDamage = ATTACK_VALUE;
+  } else if (mode === 'STRONG_ATTACK') {
+    maxDamage = ATTACK_VALUE * 2;
+  }
+  const damage = dealMonsterDamage(maxDamage);
+  currentMonsterHealth -= damage;
+  winnerCheck();
+}
+
+function attackHandler() {
+  attackMonster('ATTACK');
+}
+
+function strongAttackHandler() {
+  attackMonster('STRONG_ATTACK');
+}
+
+function healPlayerHandler() {
+  let healValue;
+  if (currentPlayerHealth >= chosenMaxLife - HEAL_VALUE) {
+    alert('You cannot heal to more than your max life');
+    healValue = chosenMaxLife - currentPlayerHealth;
+  } else {
+    healValue = HEAL_VALUE;
+  }
+  increasePlayerHealth(healValue);
+  currentPlayerHealth += healValue;
+  winnerCheck();
+}
+
+attackBtn.addEventListener('click', attackHandler);
+strongAttackBtn.addEventListener('click', strongAttackHandler);
+healBtn.addEventListener('click', healPlayerHandler);
+logBtn.addEventListener('click', logHandler);
+giveUpBtn.addEventListener('click', giveUpHandler);

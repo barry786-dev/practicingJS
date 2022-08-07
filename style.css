@@ -1,0 +1,25 @@
+.card{
+    border: 2px solid #000;
+    width:20%;
+    margin: 10px auto;
+    text-align: center;
+    padding: 10px;
+}
+.btn{
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.hello{
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

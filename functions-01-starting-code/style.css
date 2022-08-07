@@ -1,0 +1,13 @@
+.hide {
+  display: none;
+}
+button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 14px 20px;
+  display: block;
+  margin: 150px auto;
+  cursor: pointer;
+  border-radius: 5px;
+}
