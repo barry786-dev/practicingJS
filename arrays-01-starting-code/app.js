@@ -61,7 +61,7 @@ console.log(age20, personsData);
 const age30Index = personsData.findIndex((person) => person.age === 30);
 console.log(age30Index); */
 
-const prices = [10.99, 5.99, 3.99, 6.59];
+/* const prices = [10.99, 5.99, 3.99, 6.59];
 const tax = 0.19;
 const taxAdjustedPrices = prices.map((price, idx) => {
   return { index: idx, taxAdjPrice: price * (1 + tax) };
@@ -73,3 +73,41 @@ console.log(sortedPrices);
 sortedPrices.reverse();
 
 const filteredPrices = prices.filter((price) => price > 5);
+
+const prices1 = [10.99, 5.99, 3.99, 6.59];
+const sum = prices1.reduce((total, price) => total + price, 0);
+console.log(sum);
+const PriceObject = prices1.reduce((obj, price) => {
+ obj.push({ price });
+  return obj;
+}, []);
+console.log(PriceObject); */
+
+/* const data = ' new york ;10.99;2000';
+const transformedData = data.split(';').map((item) => item.trim());
+console.log(transformedData);
+
+const nameFragments = ['John', 'Pete', 'Mary'];
+const name1 = nameFragments.join(' ');
+console.log(name1); */
+
+/* const arr5 = [1, 2, 3, 4, 5];
+const [first,second] = arr5;
+console.log(first, second);
+
+const nameData = ['John', 'Pete', 'Mary'];
+const [firstName, secondName, ...rest] = nameData;
+console.log(firstName, secondName, rest); */
+
+/* const copiedArr = [...arr5];
+const minimumNum = Math.min(...arr5);
+
+const persons = [{ name: 'John', age: 30 }, { name: 'Pete', age: 20 }, { name: 'Mary', age: 25 }];
+const [{ name: firstName }] = persons;
+console.log(firstName);
+const copiedPersons = [...persons.map((person) => ({ ...person }))];
+persons[0].age = 31;
+console.log(copiedPersons); */
+
+
+
