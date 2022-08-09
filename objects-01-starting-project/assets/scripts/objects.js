@@ -44,6 +44,9 @@ const renderMovies = (filter = '') => {
     const movieEl = document.createElement('li');
     //movieEl.classList.add('list-item');
     //movieEl.textContent = movie.info.title + ' __ ' + movie.info[extraName];
+    /* if ('info' in movie){
+
+    } */
     const {info : movieInfo, ...otherProps} = movie;
     console.log(otherProps);
     let text = movieInfo.title + ' __ ';
