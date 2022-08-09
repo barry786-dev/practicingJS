@@ -44,10 +44,12 @@ const renderMovies = (filter = '') => {
     const movieEl = document.createElement('li');
     //movieEl.classList.add('list-item');
     //movieEl.textContent = movie.info.title + ' __ ' + movie.info[extraName];
-    let text = movie.info.title + ' __ ';
-    for (const key in movie.info) {
+    const {info : movieInfo, ...otherProps} = movie;
+    console.log(otherProps);
+    let text = movieInfo.title + ' __ ';
+    for (const key in movieInfo) {
       if (key !== 'title') {
-        text += key + ' : ' + movie.info[key];
+        text += key + ' : ' + movieInfo[key];
       }
     }
     movieEl.textContent = text;
