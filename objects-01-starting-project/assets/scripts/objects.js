@@ -2,10 +2,12 @@
 movieList.style['background-color'] = 'red';
 movieList.style.display = 'block'; */
 
+const userChosenKeyName = 'user-chosen';
 const person = {
   'first-name': 'John',
   age: 30,
   hobbies: ['music', 'movies', 'sports'],
+  [userChosenKeyName]: 'user-chosen-value',
   greet() {
     console.log('Hi, I am ' + this.name);
   },
