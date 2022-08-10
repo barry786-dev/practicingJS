@@ -47,9 +47,11 @@ const renderMovies = (filter = '') => {
     /* if ('info' in movie){
 
     } */
-    const {info : movieInfo, ...otherProps} = movie;
+    const { info: movieInfo, ...otherProps } = movie;
     console.log(otherProps);
-    let text = movieInfo.title + ' __ ';
+    let { getFormattedTitle } = movie;
+    //getFormattedTitle = getFormattedTitle.bind(movie); // you can excite it directly if you by using call or apply
+    let text = getFormattedTitle.call(movie) + ' __ ';
     for (const key in movieInfo) {
       if (key !== 'title') {
         text += key + ' : ' + movieInfo[key];
@@ -73,6 +75,9 @@ const addMovieHandler = () => {
       [extraName]: extraValue,
     },
     id: Date.now().toString(),
+    getFormattedTitle() {
+      return this.info.title.toUpperCase();
+    },
   };
   movies.push(newMovie);
   renderMovies();
