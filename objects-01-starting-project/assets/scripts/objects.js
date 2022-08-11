@@ -53,7 +53,7 @@ const renderMovies = (filter = '') => {
     //getFormattedTitle = getFormattedTitle.bind(movie); // you can excite it directly if you by using call or apply
     let text = getFormattedTitle.call(movie) + ' __ ';
     for (const key in movieInfo) {
-      if (key !== 'title') {
+      if (key !== 'title' && key !== '_title') {
         text += key + ' : ' + movieInfo[key];
       }
     }
@@ -66,12 +66,21 @@ const addMovieHandler = () => {
   const title = document.querySelector('#title').value.trim();
   const extraName = document.querySelector('#extra-name').value.trim();
   const extraValue = document.querySelector('#extra-value').value.trim();
-  if (title === '' || extraName === '' || extraValue === '') {
+  if ( extraName === '' || extraValue === '') {
     return;
   }
   const newMovie = {
     info: {
-      title,
+      set title(value) {
+        if (value.trim() === '') {
+          this._title = 'Unknown';
+          return;
+        }
+        this._title = value;
+      },
+      get title() {
+        return this._title.toUpperCase();
+      },
       [extraName]: extraValue,
     },
     id: Date.now().toString(),
@@ -79,6 +88,7 @@ const addMovieHandler = () => {
       return this.info.title.toUpperCase();
     },
   };
+  newMovie.info.title = title;
   movies.push(newMovie);
   renderMovies();
 };

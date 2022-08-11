@@ -59,7 +59,19 @@ const testMethodCopy = test.testThis;
     });
   },
 }; */ // this.teamMembers will refer to member object but this.teamName will not find any thing to bind the this keyword so it will bind it to the global object or window object in browser so the error will be thrown(this.teamName is not defined)
-members.getTeamMembers();
+// members.getTeamMembers();
+
+/* const person = {
+  name: 'Max',
+  greet() {
+    console.log(this); // ???
+    console.log(this.name);
+  },
+};
+
+const { greet } = person;
+greet(); */
+
 /* "this" - Summary
 The this keyword can lead to some headaches in JavaScript - this summary hopefully acts as a remedy.
 
