@@ -1,18 +1,18 @@
 'use strict';
-console.log(this); // this will referer  this file module object or window object in browser
+console.log(this); // this will refer to  this file module object or window object in browser
 
 function testThis() {
-  console.log(this); // this wil refer to global or window object in browser or undefined in strict mode
+  console.log(this); // this will refer to global or window object in browser or undefined in strict mode
 }
 //testThis();
 const testArrowThis = () => {
-  console.log(this); // this wil refer to this file module object or window object in browser
+  console.log(this); // this will refer to this file module object or window object in browser
 };
 //testArrowThis();
 
 const test = {
   testThis: function () {
-    console.log(this); // this wil refer to the test object
+    console.log(this); // this will refer to the test object
   },
 };
 //test.testThis();
