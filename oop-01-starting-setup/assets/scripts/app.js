@@ -82,12 +82,35 @@ class Product {
   }
 }
 
+class ShoppingCart {
+  items = [];
+  total = 0;
+
+  addProduct(product) {
+    this.items.push(product);
+    this.total += product.price;
+    this.totalOutput.innerText = `Total: \$${this.total}`;
+  }
+  render() {
+    const cartEl = document.createElement('section');
+    cartEl.className = 'cart';
+    const cartItems = `
+  <h2>Total: \$${0}</h2>
+  <button>Checkout</button>
+    `;
+    cartEl.innerHTML = cartItems;
+    this.totalOutput = cartEl.querySelector('h2');
+    return cartEl;
+  }
+}
+
 class ProductItem {
   constructor(product) {
     this.product = product;
   }
-  addToCard () {
+  addToCart() {
     console.log('Add to cart' + this.product.title);
+    App.addProductToCart(this.product);
   }
   render() {
     const prodEl = document.createElement('li');
@@ -103,7 +126,7 @@ class ProductItem {
         </div>
       </div>`;
     const addCartButton = prodEl.querySelector('button');
-    addCartButton.addEventListener('click', this.addToCard.bind(this));
+    addCartButton.addEventListener('click', this.addToCart.bind(this));
     return prodEl;
   }
 }
@@ -131,16 +154,40 @@ class ProductList {
     });
   }
   render() {
-    const renderHook = document.getElementById('app');
     const prodList = document.createElement('ul');
     prodList.className = 'product-list';
     this.products.forEach((product) => {
       const prodEl = new ProductItem(product).render();
       prodList.append(prodEl);
     });
-    renderHook.append(prodList);
+    return prodList;
   }
 }
-const productList = new ProductList(products);
 
-productList.render();
+class Shop {
+  render() {
+    const renderHook = document.getElementById('app');
+    this.cart = new ShoppingCart();
+    const cartEl = this.cart.render();
+    const productList = new ProductList(products);
+    const prodListEl = productList.render();
+
+    renderHook.append(cartEl);
+    renderHook.append(prodListEl);
+  }
+}
+
+class App {
+  static cart;
+  static init() {
+    const shop = new Shop();
+    shop.render();
+    this.cart = shop.cart;
+  }
+  static addProductToCart(product) {
+    this.cart.addProduct(product);
+   // this.cart.render();
+  }
+}
+
+App.init();
