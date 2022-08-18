@@ -84,12 +84,21 @@ class Product {
 
 class ShoppingCart {
   items = [];
-  total = 0;
+
+  set cartItems(value) {
+    this.items = value;
+    this.totalOutput.innerText = `Total: \$${this.totalAmount.toFixed(2)}`;
+  }
+
+  get totalAmount() {
+    const sum = this.items.reduce((a, b) => a + b.price, 0);
+    return sum;
+  }
 
   addProduct(product) {
-    this.items.push(product);
-    this.total += product.price;
-    this.totalOutput.innerText = `Total: \$${this.total}`;
+    const updatedItems = [...this.items];
+    updatedItems.push(product);
+    this.cartItems = updatedItems;
   }
   render() {
     const cartEl = document.createElement('section');
@@ -186,7 +195,7 @@ class App {
   }
   static addProductToCart(product) {
     this.cart.addProduct(product);
-   // this.cart.render();
+    // this.cart.render();
   }
 }
 
