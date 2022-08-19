@@ -112,6 +112,9 @@ class Component {
 class ShoppingCart extends Component {
   items = [];
 
+  /**
+   * @param {any[]} value
+   */
   set cartItems(value) {
     this.items = value;
     this.totalOutput.innerText = `Total: \$${this.totalAmount.toFixed(2)}`;
@@ -126,7 +129,7 @@ class ShoppingCart extends Component {
     this.checkoutClicked = () => {
       console.log('Checkout clicked');
       console.log(this.items);
-    }
+    };
     this.render();
   }
   addProduct(product) {
@@ -180,22 +183,23 @@ class ProductItem extends Component {
   }
 }
 class ProductList extends Component {
+  #products = [];
   constructor(ArrayOfProducts, renderHookId) {
-    super(renderHookId, true);
-    this.fetchProducts(ArrayOfProducts);
+    super(renderHookId, false);
+    this.render();
+    this.#fetchProducts(ArrayOfProducts);
   }
 
-  fetchProducts(ArrayOfProducts) {
-    this.products = [];
+  #fetchProducts(ArrayOfProducts) {
     ArrayOfProducts.forEach((pro) => {
       const { title, image, description, price } = pro;
-      this.products.push(new Product(title, image, description, price));
+      this.#products.push(new Product(title, image, description, price));
     });
     this.renderProducts();
   }
 
   renderProducts() {
-    this.products.forEach((product) => {
+    this.#products.forEach((product) => {
       new ProductItem(product, 'prod-list');
     });
   }
@@ -204,7 +208,7 @@ class ProductList extends Component {
     const prodList = this.CreateRootElement('ul', 'product-list', [
       new ElementAttribute('id', 'prod-list'),
     ]);
-    if (this.products && this.products.length > 0) {
+    if (this.#products && this.#products.length > 0) {
       this.renderProducts();
     }
   }
