@@ -48,9 +48,9 @@ const renderMovies = (filter = '') => {
 
     } */
     const { info: movieInfo, ...otherProps } = movie;
-    console.log(otherProps);
+    //console.log(otherProps);
     let { getFormattedTitle } = movie;
-    //getFormattedTitle = getFormattedTitle.bind(movie); // you can excite it directly if you by using call or apply
+    //getFormattedTitle = getFormattedTitle.bind(movie); // you can excite it directly if you want by using call or apply
     let text = getFormattedTitle.call(movie) + ' __ ';
     for (const key in movieInfo) {
       if (key !== 'title' && key !== '_title') {
@@ -79,7 +79,7 @@ const addMovieHandler = () => {
         this._title = value;
       },
       get title() {
-        return this._title.toUpperCase();
+        return this._title;
       },
       [extraName]: extraValue,
     },
