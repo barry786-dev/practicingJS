@@ -17,7 +17,7 @@ class DOMHelper {
 class Component {
   constructor(hostElementId, insertBefore = false) {
     if (hostElementId) {
-      this.hostElement = document.getElementById(hostElement);
+      this.hostElement = document.getElementById(hostElementId);
     } else {
       this.hostElement = document.body;
     }
@@ -39,8 +39,8 @@ class Component {
 }
 
 class Tooltip extends Component {
-  constructor(deactivateTooltipFn, tooltipText) {
-    super();
+  constructor(deactivateTooltipFn, tooltipText, hostElementId) {
+    super(hostElementId);
     this.tooltipText = tooltipText;
     this.deactivateTooltip = deactivateTooltipFn;
     this.create();
@@ -55,6 +55,35 @@ class Tooltip extends Component {
     const tooltip = document.createElement('div');
     tooltip.className = 'card';
     tooltip.textContent = this.tooltipText;
+    // console.log(this.hostElement.getBoundingClientRect().left);
+    // console.log(this.hostElement.offsetLeft);
+    const hostElPosLeft = this.hostElement.offsetLeft;
+    const hostElPosTop = this.hostElement.offsetTop;
+    const hostElHeight = this.hostElement.clientHeight;
+
+    const hostElementParent = this.hostElement.parentElement;
+
+    let parentElementScrolling = hostElementParent.scrollTop;
+    const parentElementHeight = hostElementParent.clientHeight;
+    const parentElementTop = hostElementParent.offsetTop;
+    const x = hostElPosLeft + 20;
+    let y = hostElPosTop + hostElHeight - parentElementScrolling - 20;
+
+    tooltip.style.position = 'absolute';
+    tooltip.style.left = x + 'px';
+    tooltip.style.top = y + 'px';
+
+    this.hostElement.parentElement.addEventListener('scroll', () => {
+      parentElementScrolling = hostElementParent.scrollTop;
+      y = hostElPosTop + hostElHeight - parentElementScrolling - 20;
+      if (y > parentElementHeight + parentElementTop) {
+        tooltip.style.display = 'none';
+      } else {
+        tooltip.style.display = 'block';
+        tooltip.style.top = y + 'px';
+      } 
+    });
+
     tooltip.addEventListener('click', this.closeTooltip);
     this.element = tooltip;
   };
@@ -74,7 +103,8 @@ class ProjectItem {
       const tooltipText = document.getElementById(this.id).dataset.extraInfo;
       const tooltip = new Tooltip(
         this.deactivateTooltip.bind(this),
-        tooltipText
+        tooltipText,
+        this.id
       );
       tooltip.attach();
       this.hasActiveTooltip = true;
