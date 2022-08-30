@@ -11,6 +11,7 @@ class DOMHelper {
     const destination = document.querySelector(newDestinationId);
     destination.append(element);
     //element.replaceWith(element.cloneNode(true));
+    element.scrollIntoView({behavior: 'smooth'});
   }
 }
 
