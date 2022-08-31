@@ -210,7 +210,7 @@ class ProjectList {
     this.projects = this.projects.filter((prj) => prj.id !== id);
   }
 }
-
+let stopIntervalId;
 class App {
   static init() {
     const activeProjectsList = new ProjectList(
@@ -227,13 +227,16 @@ class App {
     finishedProjectsList.setSwitchHandlerFunction(
       activeProjectsList.addProject.bind(activeProjectsList)
     );
+    const timerId = setTimeout(() => {
+      this.startAnalytics();
+    }, 3000);
     document
-      .getElementById('start-analytics-btn')
+      .querySelector('#start-analytics-btn')
       .addEventListener('click', () => {
-        setTimeout(() => {
-          this.startAnalytics();
-        }, 3000);
-        
+        clearTimeout(timerId);
+        if (stopIntervalId) {
+          clearInterval(stopIntervalId);
+        }
       });
 
     /* const someScript = document.createElement('script');
