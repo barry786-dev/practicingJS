@@ -11,7 +11,7 @@ class DOMHelper {
     const destination = document.querySelector(newDestinationId);
     destination.append(element);
     //element.replaceWith(element.cloneNode(true));
-    element.scrollIntoView({behavior: 'smooth'});
+    element.scrollIntoView({ behavior: 'smooth' });
   }
 }
 
@@ -55,7 +55,11 @@ class Tooltip extends Component {
   create = () => {
     const tooltip = document.createElement('div');
     tooltip.className = 'card';
-    tooltip.textContent = this.tooltipText;
+    const tooltipTemplate = document.getElementById('tooltip');
+    const tooltipBody = document.importNode(tooltipTemplate.content, true);
+    tooltipBody.querySelector('p').textContent = this.tooltipText;
+    tooltip.append(tooltipBody);
+    //tooltip.textContent = this.tooltipText;
     // console.log(this.hostElement.getBoundingClientRect().left);
     // console.log(this.hostElement.offsetLeft);
     const hostElPosLeft = this.hostElement.offsetLeft;
@@ -82,7 +86,7 @@ class Tooltip extends Component {
       } else {
         tooltip.style.display = 'block';
         tooltip.style.top = y + 'px';
-      } 
+      }
     });
 
     tooltip.addEventListener('click', this.closeTooltip);
@@ -223,6 +227,25 @@ class App {
     finishedProjectsList.setSwitchHandlerFunction(
       activeProjectsList.addProject.bind(activeProjectsList)
     );
+    document
+      .getElementById('start-analytics-btn')
+      .addEventListener('click', () => {
+        setTimeout(() => {
+          this.startAnalytics();
+        }, 3000);
+        
+      });
+
+    /* const someScript = document.createElement('script');
+    someScript.textContent = 'alert("Hi there!")';
+    document.head.append(someScript); */
+  }
+
+  static startAnalytics() {
+    const analyticsScript = document.createElement('script');
+    analyticsScript.src = 'assets/scripts/analytics.js';
+    analyticsScript.defer = true;
+    document.head.append(analyticsScript);
   }
 
   /*  static switchHandlerFunction(project, type) {
