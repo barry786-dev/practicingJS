@@ -18,9 +18,9 @@ const anotherButtonClickedHandler = () => {
 
 const boundFn = buttonClickedHAndler.bind(this);
 
-buttons.forEach((button) => {
-  button.addEventListener('click', boundFn);
-});
+// buttons.forEach((button) => {
+//   button.addEventListener('click', boundFn);
+// });
 
 // setTimeout(() => {
 //   button.removeEventListener('click', boundFn);
@@ -45,4 +45,8 @@ console.log(document.documentElement);
 
     window.addEventListener('scroll', scrollHandler); */
 
-  
+  const form = document.querySelector('form');
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    console.log(event);
+  });
