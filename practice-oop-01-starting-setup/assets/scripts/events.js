@@ -1,4 +1,5 @@
-const buttons = document.querySelectorAll('button');
+//const buttons = document.querySelectorAll('button');
+const button = document.querySelector('button');
 
 // button.onclick = function() {
 //   alert('You clicked me!');
@@ -48,5 +49,18 @@ console.log(document.documentElement);
   const form = document.querySelector('form');
   form.addEventListener('submit', (event) => {
     event.preventDefault();
+    console.log(event);
+  });
+
+
+  const div = document.querySelector('div');
+  div.addEventListener('click', (event) => {
+    console.log('CLICKED DIV');
+    console.log(event);
+  });
+  button.addEventListener('click', event => {
+    event.stopPropagation(); // stop bubbling
+    event.stopImmediatePropagation();// stop bubbling and prevent other listeners from being called
+    console.log('CLICKED BUTTON');
     console.log(event);
   });
