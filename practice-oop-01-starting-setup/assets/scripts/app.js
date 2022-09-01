@@ -233,6 +233,7 @@ class App {
     document
       .querySelector('#start-analytics-btn')
       .addEventListener('click', () => {
+        console.log(timerId);
         clearTimeout(timerId);
         if (stopIntervalId) {
           clearInterval(stopIntervalId);
