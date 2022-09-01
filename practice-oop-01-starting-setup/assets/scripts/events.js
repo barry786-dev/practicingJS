@@ -31,7 +31,7 @@ const boundFn = buttonClickedHAndler.bind(this);
 //   console.log(event);
 // });
 
-    /* let curElementNumber = 0;
+/* let curElementNumber = 0;
 
     function scrollHandler() {
       const distanceToBottom = document.body.getBoundingClientRect().bottom;
@@ -46,21 +46,40 @@ console.log(document.documentElement);
 
     window.addEventListener('scroll', scrollHandler); */
 
-  const form = document.querySelector('form');
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    console.log(event);
-  });
+const form = document.querySelector('form');
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+  console.log(event);
+});
 
+const div = document.querySelector('div');
+div.addEventListener('click', (event) => {
+  console.log('CLICKED DIV');
+  console.log(event);
+});
+button.addEventListener('click', (event) => {
+  event.stopPropagation(); // stop bubbling
+  event.stopImmediatePropagation(); // stop bubbling and prevent other listeners from being called
+  console.log('CLICKED BUTTON');
+  console.log(event);
+});
 
-  const div = document.querySelector('div');
-  div.addEventListener('click', (event) => {
-    console.log('CLICKED DIV');
-    console.log(event);
+const listItems = document.querySelectorAll('li');
+const list = document.querySelector('ul');
+/* listItems.forEach((listItem) => {
+  listItem.addEventListener('click', (event) => {
+    if (event.target.style.textDecoration === 'line-through') {
+      event.target.style.textDecoration = 'none';
+    } else {
+      event.target.style.textDecoration = 'line-through';
+    }
   });
-  button.addEventListener('click', event => {
-    event.stopPropagation(); // stop bubbling
-    event.stopImmediatePropagation();// stop bubbling and prevent other listeners from being called
-    console.log('CLICKED BUTTON');
-    console.log(event);
-  });
+}); */
+list.addEventListener('click', (event) => {
+  console.log(event.target); // which element was caused the event
+  console.log(event.currentTarget);// which element is listening for the event
+  console.log(event.eventPhase); // which phase of the event flow is currently being evaluated
+  //event.target.classList.toggle('highlight');
+  event.target.closest('li').classList.toggle('highlight');
+});
+
