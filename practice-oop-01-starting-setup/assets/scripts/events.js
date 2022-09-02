@@ -52,6 +52,7 @@ form.addEventListener('submit', (event) => {
   console.log(event);
 });
 
+// capturing and bubbling
 const div = document.querySelector('div');
 div.addEventListener('click', (event) => {
   console.log('CLICKED DIV');
@@ -75,11 +76,13 @@ const list = document.querySelector('ul');
     }
   });
 }); */
+// delegation
 list.addEventListener('click', (event) => {
   console.log(event.target); // which element was caused the event
-  console.log(event.currentTarget);// which element is listening for the event
+  console.log(event.currentTarget); // which element is listening for the event
   console.log(event.eventPhase); // which phase of the event flow is currently being evaluated
   //event.target.classList.toggle('highlight');
   event.target.closest('li').classList.toggle('highlight');
+  //  form.submit(); // submit the form will reload the page because it will ignore the exist event listener
+  button.click(); // will trigger the click event listener
 });
-
