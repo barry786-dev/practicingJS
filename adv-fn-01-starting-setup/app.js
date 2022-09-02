@@ -2,7 +2,7 @@
 function add(a, b) {
   return a + b;
 }
-console.log(add(1, 2));// 3
+console.log(add(1, 2)); // 3
 console.log(add(1, 9)); // 10
 
 // impure function
@@ -29,14 +29,34 @@ function printHobbies(h) {
 }
 printHobbies(hobbies); // ['Sports', 'Cooking', 'NEW HOBBY']
 
+let multiplier = 1.1;
+
 // factory function is a function that returns a function
 function createTaxCalculator(tax) {
+  console.log('line 36', multiplier);
   function calculateTax(amount) {
-    return amount * tax;
+    console.log('line 38', multiplier);
+    return amount * tax * multiplier;
   }
   return calculateTax;
 }
 const calculateVatAmount = createTaxCalculator(0.19);
 const calculateIncomeTaxAmount = createTaxCalculator(0.25);
+
+multiplier = 1.2; // this will not affect the result of calculateVatAmount
+
 console.log(calculateVatAmount(100)); // 19
 console.log(calculateVatAmount(200)); // 38
+
+// closures : every function is a closure
+// each function has its own lexical environment and global environment as well
+
+let userName = 'Barry';
+
+function greetUser() {
+  let name = 'Anna'; // this is a local variable : shadowing
+  console.log('Hi ' + name);
+}
+let name = 'Abdul';
+userName = 'Maker';
+greetUser();
