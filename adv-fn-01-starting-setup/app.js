@@ -28,3 +28,15 @@ function printHobbies(h) {
   console.log(h);
 }
 printHobbies(hobbies); // ['Sports', 'Cooking', 'NEW HOBBY']
+
+// factory function is a function that returns a function
+function createTaxCalculator(tax) {
+  function calculateTax(amount) {
+    return amount * tax;
+  }
+  return calculateTax;
+}
+const calculateVatAmount = createTaxCalculator(0.19);
+const calculateIncomeTaxAmount = createTaxCalculator(0.25);
+console.log(calculateVatAmount(100)); // 19
+console.log(calculateVatAmount(200)); // 38
