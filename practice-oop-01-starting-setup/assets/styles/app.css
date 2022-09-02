@@ -124,3 +124,11 @@ button:active {
   color: white;
   margin: 0;
 }
+
+.droppable {
+  background: #ffe0ec;
+  padding: 1rem;
+  min-height: 10rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}

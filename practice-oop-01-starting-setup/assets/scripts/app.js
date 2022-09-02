@@ -102,6 +102,7 @@ class ProjectItem {
     this.type = type;
     this.connectMoreInfoButton();
     this.connectSwitchButton(type);
+    this.connectDrag();
   }
   showMoreInfoHandler() {
     if (!this.hasActiveTooltip) {
@@ -119,6 +120,24 @@ class ProjectItem {
   deactivateTooltip() {
     this.hasActiveTooltip = false;
   }
+
+  connectDrag() {
+    const projectItemElement = document.querySelector(`#${this.id}`);
+    const list = document.querySelector(`#${this.type}-projects ul`);
+    projectItemElement.addEventListener('dragstart', (event) => {
+      event.dataTransfer.setData('text/plain', this.id);
+      event.dataTransfer.effectAllowed = 'move';
+    });
+    projectItemElement.addEventListener('dragend', (event) => {
+      list.parentElement.classList.remove('droppable');
+      if (event.dataTransfer.dropEffect === 'move') {
+        console.log('dropped');
+      } else {
+        console.log('canceled');
+      }
+    });
+  }
+
   connectMoreInfoButton() {
     const projectItemElement = document.querySelector(`#${this.id}`);
     const MoreInfo = projectItemElement.querySelector(`.alt`);
@@ -176,6 +195,38 @@ class ProjectList {
         new ProjectItem(prjItem.id, this.switchProject.bind(this), this.type)
       );
     }
+    this.connectDroppable();
+  }
+  connectDroppable() {
+    const list = document.querySelector(`#${this.type}-projects ul`);
+    list.addEventListener('dragenter', (event) => {
+      if (event.dataTransfer.types[0] === 'text/plain') {
+        list.parentElement.classList.add('droppable');
+        event.preventDefault();
+      }
+    });
+    list.addEventListener('dragover', (event) => {
+      if (event.dataTransfer.types[0] === 'text/plain') {
+        event.preventDefault();
+      }
+    });
+    list.addEventListener('dragleave', (event) => {
+      if (event.relatedTarget.closest(`#${this.type}-projects ul`) !== list) {
+        list.parentElement.classList.remove('droppable');
+      }
+    });
+    list.addEventListener('drop', (event) => {
+      event.preventDefault(); // add it because of firefox
+      const prjId = event.dataTransfer.getData('text/plain');
+      if (this.projects.find((p) => p.id === prjId)) {
+        return;
+      }
+      document
+        .getElementById(prjId)
+        .querySelector('button:last-of-type')
+        .click();
+      list.parentElement.classList.remove('droppable');
+    });
   }
 
   setSwitchHandlerFunction(switchHandlerFunction) {
@@ -227,9 +278,9 @@ class App {
     finishedProjectsList.setSwitchHandlerFunction(
       activeProjectsList.addProject.bind(activeProjectsList)
     );
-    const timerId = setTimeout(() => {
-      this.startAnalytics();
-    }, 3000);
+    // const timerId = setTimeout(() => {
+    //   this.startAnalytics();
+    // }, 3000);
     document
       .querySelector('#start-analytics-btn')
       .addEventListener('click', () => {
