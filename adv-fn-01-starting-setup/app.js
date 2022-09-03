@@ -60,3 +60,65 @@ function greetUser() {
 let name = 'Abdul';
 userName = 'Maker';
 greetUser();
+
+// Recursion
+
+/* function powerOf(x, n) {
+  let result = 1;
+  for (let i = 0; i < n; i++) {
+    result *= x;
+  }
+  return result;
+} */
+
+/* function powerOf(x, n) {
+  if (n === 1) {
+    return x;
+  }
+  return x * powerOf(x, n - 1);
+} */
+
+function powerOf(x, n) {
+  return n === 1 ? x : x * powerOf(x, n - 1);
+}
+
+console.log(powerOf(2, 3)); // 8
+
+const myself = {
+  name: 'Barry',
+  friends: [
+    {
+      name: 'Abdul',
+      friends: [
+        {
+          name: 'Anna',
+          friends: [
+            {
+              name: 'Julia',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'John',
+    },
+  ],
+};
+function printFriendsNames(person) {
+  const friendsArr = [];
+  if (!('friends' in person)) {
+    return friendsArr;
+  }
+  /* if (!person.friends) {
+    return friendsArr;
+  } */
+  
+  for (let friend of person.friends) {
+    friendsArr.push(friend.name);
+    friendsArr.push(...printFriendsNames(friend));
+  }
+
+   return friendsArr;
+}
+console.log(printFriendsNames(myself));
