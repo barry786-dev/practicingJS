@@ -37,3 +37,22 @@ const userName = 'Bob';
 const age = 20;
 const tagRet = tag`Hello ${userName}! You are ${age} years old!`;
 console.log(tagRet); // Hello Bob! You are young years old!
+
+// RegExp
+const userEmail = 'test@test.com';
+userEmail.includes('@'); // true
+userEmail.match(/\S+@\S+\.\S+/); // ["
+const regEx = /\S@\S+\.\S/;
+regEx.exec(userEmail); // ["
+console.log(regEx.test(userEmail)); // true
+
+const regEx2 = /hello/;
+console.log(regEx2.test('hello world')); // true
+console.log(regEx2.test('Hello world')); // false
+let regEx3 = /hello/i;
+regEx3 = /(h|H)ello/;
+console.log(regEx3.test('Hello world')); // true
+const regEx4 = /hello/g;
+console.log(regEx4.test('Hello world')); // false
+const regEx5 = /.ello/; // wildcard
+console.log(regEx5.test('jellok world')); // true
