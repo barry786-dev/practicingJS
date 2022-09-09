@@ -38,6 +38,12 @@ const age = 20;
 const tagRet = tag`Hello ${userName}! You are ${age} years old!`;
 console.log(tagRet); // Hello Bob! You are young years old!
 
+function tag(strings) {
+  console.log(strings.raw[0]);
+}
+
+tag`string text line 1 \n string text line 2`;
+
 // RegExp
 const userEmail = 'test@test.com';
 userEmail.includes('@'); // true
@@ -56,3 +62,5 @@ const regEx4 = /hello/g;
 console.log(regEx4.test('Hello world')); // false
 const regEx5 = /.ello/; // wildcard
 console.log(regEx5.test('jellok world')); // true
+
+
