@@ -56,8 +56,12 @@ function trackUserHandler() {
       positionData = postData;
       return setTimer(2000);
     })
+    .catch((err) => {
+      console.log(err);
+      return 'on we go...';
+    })
     .then((data) => {
-      console.log(data, postData);
+      console.log(data, positionData);
     });
   /* navigator.geolocation.getCurrentPosition(
     (posData) => {
