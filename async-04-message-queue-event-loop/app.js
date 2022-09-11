@@ -94,8 +94,19 @@ async function trackUserHandler_2() {
     const posData = await getPosition();
     const timerData = await setTimer(2000);
     console.log(timerData, posData);
-  }
-  catch (error) {
+  } catch (error) {
     console.log(error);
   }
 }
+
+Promise.race([getPosition(), setTimer()]).then((data) => {
+  console.log(data);
+});
+
+Promise.all([getPosition(), setTimer()]).then((promiseData) => {
+  console.log(promiseData); // array of data but if one promise fail it will fail all
+});
+
+Promise.allSettled([getPosition(), setTimer()]).then((promiseData) => {
+  console.log(promiseData); // array of data with all promise status
+});
