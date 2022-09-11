@@ -62,6 +62,9 @@ function trackUserHandler() {
     })
     .then((data) => {
       console.log(data, positionData);
+    })
+    .finally(() => {
+      console.log('This is finally');
     });
   /* navigator.geolocation.getCurrentPosition(
     (posData) => {
@@ -85,3 +88,14 @@ function trackUserHandler() {
 // }
 
 // console.log(result);
+
+async function trackUserHandler_2() {
+  try {
+    const posData = await getPosition();
+    const timerData = await setTimer(2000);
+    console.log(timerData, posData);
+  }
+  catch (error) {
+    console.log(error);
+  }
+}
