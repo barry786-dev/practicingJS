@@ -21,8 +21,8 @@ postsUl.addEventListener('click', (event) => {
 });
 
 function sendHttpRequest(method, url, data) {
-  const promise = new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
+  //const promise = new Promise((resolve, reject) => {
+  /* const xhr = new XMLHttpRequest();
     xhr.open(method, url);
     xhr.responseType = 'json';
     xhr.onload = function () {
@@ -35,9 +35,11 @@ function sendHttpRequest(method, url, data) {
     xhr.onerror = function () {
       reject(`Error ${xhr.status}: ${xhr.statusText}`); // Failed to connect
     };
-    xhr.send(JSON.stringify(data));
-  });
-  return promise;
+    xhr.send(JSON.stringify(data)); */
+  //});
+  //return promise;
+
+  return fetch(url);
 }
 
 async function fetchPost() {
@@ -57,8 +59,9 @@ async function fetchPost() {
       //postLi.children[0].id = post.id;
       postsUl.append(postLi);
     }
-  } catch {
-    (error) => console.log(error);
+  } catch (error) {
+    console.log('error');
+    console.log(error);
   }
 }
 
@@ -75,17 +78,17 @@ async function createPost(title, content) {
       'https://jsonplaceholder.typicode.com/posts',
       post
     );
-  } catch {
-    (error) => console.log(error);
+  } catch (error) {
+    console.log(error);
   }
 }
 
 async function deletePost(id) {
   sendHttpRequest(
-      'DELETE',
-      `https://jsonplaceholder.typicode.com/posts/${id}`
-    ).catch((error) => console.log(error));
-    postsUl.querySelector(`[id='${id}']`).remove();
+    'DELETE',
+    `https://jsonplaceholder.typicode.com/posts/${id}`
+  ).catch((error) => console.log(error));
+  postsUl.querySelector(`[id='${id}']`).remove();
 }
 //createPost('Dogs', 'Dogs are awesome!');
 
