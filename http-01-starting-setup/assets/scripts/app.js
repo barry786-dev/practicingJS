@@ -26,11 +26,14 @@ function sendHttpRequest(method, url, data) {
     xhr.open(method, url);
     xhr.responseType = 'json';
     xhr.onload = function () {
-      if (xhr.status !== 200 && xhr.status !== 201) {
-        reject(`Error ${xhr.status}: ${xhr.statusText}`);
-      } else {
+      if (xhr.status >= 200 && xhr.status < 300) {
         resolve(xhr.response);
-      }
+      } else {
+        reject(`Error ${xhr.status}: ${xhr.statusText}`); // Server error
+      }   
+    };
+    xhr.onerror = function () {
+      reject(`Error ${xhr.status}: ${xhr.statusText}`); // Failed to connect
     };
     xhr.send(JSON.stringify(data));
   });
