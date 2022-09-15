@@ -23,6 +23,7 @@ postsUl.addEventListener('click', (event) => {
 function sendHttpRequest(method, url, data) {
   //const promise = new Promise((resolve, reject) => {
   /* const xhr = new XMLHttpRequest();
+    xhr.setRequestHeader('Content-Type', 'application/json'); // if you add a header you can not delete it
     xhr.open(method, url);
     xhr.responseType = 'json';
     xhr.onload = function () {
@@ -39,7 +40,28 @@ function sendHttpRequest(method, url, data) {
   //});
   //return promise;
 
-  return fetch(url);
+  return fetch(url, {
+    method: method,
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        // response.text; // convert from stream to text
+        // response.blob; // convert from stream to blob if you downloaded a file
+        return response.json();
+      } else {
+        return response.json().then((errorData) => {
+          console.log(errorData);
+          throw new Error('Something went wrong - server-side.');
+        });
+      }
+    })
+    .catch((error) => {
+      throw new Error(error);
+    });
 }
 
 async function fetchPost() {
@@ -60,7 +82,6 @@ async function fetchPost() {
       postsUl.append(postLi);
     }
   } catch (error) {
-    console.log('error');
     console.log(error);
   }
 }
