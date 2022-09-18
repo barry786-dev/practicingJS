@@ -1,6 +1,10 @@
 import { ProjectItem as PrjItem } from './ProjectItem.js';
 import * as DOMh from '../Utility/DOMHelper.js';
-const ProjectItem = 'abc'
+
+const ProjectItem = 'abc';
+console.log(DEFAULT_VALUE); // error
+console.log(windows.DEFAULT_VALUE); // undefined 
+
 export class ProjectList {
   projects = [];
   constructor(type) {
@@ -16,6 +20,7 @@ export class ProjectList {
     this.connectDroppable();
   }
   connectDroppable() {
+    console.log(globalThis.DEFAULT_VALUE); // Barry
     const list = document.querySelector(`#${this.type}-projects ul`);
     list.addEventListener('dragenter', (event) => {
       if (event.dataTransfer.types[0] === 'text/plain') {
