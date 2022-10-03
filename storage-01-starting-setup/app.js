@@ -1,18 +1,58 @@
 const storeBtn = document.getElementById('store-btn');
+
 const retrieveBtn = document.getElementById('retrieve-btn');
 
+let db;
+
+const dbRequest = indexedDB.open('StorageDummy', 1);
+
+dbRequest.onsuccess = function (event) {
+  db = event.target.result;
+};
+
+dbRequest.onupgradeneeded = function (event) {
+  db = event.target.result;
+
+  const objStore = db.createObjectStore('products', { keyPath: 'id' });
+
+  objStore.transaction.oncomplete = function (event) {
+    const productsStore = db
+      .transaction('products', 'readwrite')
+      .objectStore('products');
+    productsStore.add({
+      id: 'p1',
+      title: 'A First Product',
+      price: 12.99,
+      tags: ['Expensive', 'Luxury'],
+    });
+  };
+};
+
+dbRequest.onerror = function (event) {
+  console.log('ERROR!');
+};
+
 storeBtn.addEventListener('click', () => {
-  const userId = 'u123';
-  const user = { name: 'Barry', age: 40, hobbies: ['Sports', 'Cooking'] };
-  document.cookie = `uid=${userId}; max-age=2`;
-  // document.cookie = `uid=${userId}; expires=Thu, 27 Sep 2022 12:00:00 UTC`;
-  document.cookie = `user=${JSON.stringify(user)}`;
+  if (!db) {
+    return;
+  }
+  const productsStore = db
+    .transaction('products', 'readwrite')
+    .objectStore('products');
+  productsStore.add({
+    id: 'p2',
+    title: 'A Second Product',
+    price: 15.99,
+    tags: ['Expensive', 'Luxury'],
+  });
 });
 
 retrieveBtn.addEventListener('click', () => {
-  const cookieData = document.cookie.split(';');
-  const data = cookieData.map(i => {
-    return i.trim();
-  });
-  console.log(data[1].split('=')[1]); // user value
+  const productsStore = db
+    .transaction('products', 'readwrite')
+    .objectStore('products');
+  const request = productsStore.get('p2');
+  request.onsuccess = function () {
+    console.log(request.result);
+  };
 });
