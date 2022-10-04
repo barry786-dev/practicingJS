@@ -14,20 +14,26 @@ module.exports = {
   target: 'web',
   devtool: 'cheap-source-map',
   module: {
-  rules: [
-    {
-      test: /\.m?js$/,
-      exclude: /node_modules/,
-      use: {
-        loader: 'babel-loader',
-        options: {
-          presets: [
-            ['@babel/preset-env', { targets: 'defaults' }]
-          ]
-        }
-      }
-    }
-  ]
-},
+    rules: [
+      {
+        test: /\.m?js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              [
+                '@babel/preset-env',
+                {
+                  useBuiltIns: 'usage',
+                  corejs: { version: 3 },
+                },
+              ],
+            ],
+          },
+        },
+      },
+    ],
+  },
   plugins: [new CleanWebpackPlugin.CleanWebpackPlugin()],
 };

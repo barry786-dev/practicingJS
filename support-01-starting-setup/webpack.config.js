@@ -16,7 +16,6 @@ module.exports = {
       directory: './',
     },
     watchFiles: ['./src/**/*.js'],
-    port: 3003,
     hot: false,
     open: true,
     historyApiFallback: true,
@@ -24,20 +23,26 @@ module.exports = {
   },
   devtool: 'cheap-module-source-map',
   module: {
-  rules: [
-    {
-      test: /\.m?js$/,
-      exclude: /node_modules/,
-      use: {
-        loader: 'babel-loader',
-        options: {
-          presets: [
-            ['@babel/preset-env', { targets: 'defaults' }]
-          ]
-        }
-      }
-    }
-  ]
-},
+    rules: [
+      {
+        test: /\.m?js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              [
+                '@babel/preset-env',
+                {
+                  useBuiltIns: 'usage',
+                  corejs: { version: 3 },
+                },
+              ],
+            ],
+          },
+        },
+      },
+    ],
+  },
   plugins: [new CleanWebpackPlugin.CleanWebpackPlugin()],
 };
