@@ -5,7 +5,7 @@ const textParagraph = document.querySelector('p');
 button.addEventListener('click', () => {
   // do something...
   const text = textParagraph.textContent;
-  const promise = new Promise( (resolve, reject) => {
+  const promise = new Promise( (resolve) => {
     setTimeout(() => {
       resolve('This is the resolved data!');
     }, 2000);
