@@ -31,15 +31,15 @@ class PlaceFinder {
     modal.show();
     navigator.geolocation.getCurrentPosition(
       (successResult) => {
+        setTimeout(() => {
+          modal.hide();
+        }, 1000);
         const coordinates = {
           lat: successResult.coords.latitude,
           lng: successResult.coords.longitude,
         };
         console.log(coordinates);
         this.selectPlace(coordinates);
-        setTimeout(() => {
-          modal.hide();
-        }, 1000);
       },
       (error) => {
         modal.hide();

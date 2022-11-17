@@ -7,11 +7,11 @@
     <title>Share a Place</title>
     <link rel="stylesheet" href="assets/styles/app.css" />
     <link rel="stylesheet" href="assets/styles/share-place.css" />
-    <script
+    <!-- <script
       async
       defer
       src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"
-    ></script>
+    ></script> -->
     <script src="/assets/scripts/SharePlace.js" defer></script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/openlayers@4.6.5/css/ol.min.css" type="text/css">
@@ -39,6 +39,10 @@
           yourself!
         </p>
       </div>
+      <div id="popup" class="ol-popup">
+     <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+     <div id="popup-content"></div>
+ </div>
     </section>
 
     <section id="share-controls">
