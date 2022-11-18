@@ -14,8 +14,11 @@
     ></script> -->
     <script src="/assets/scripts/SharePlace.js" defer></script>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/openlayers@4.6.5/css/ol.min.css" type="text/css">
-    <script src="https://cdn.jsdelivr.net/npm/openlayers@4.6.5/dist/ol.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/ol@v7.1.0/dist/ol.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/ol@v7.1.0/ol.css"
+    />
   </head>
   <body>
     <template id="modal-template">
@@ -25,6 +28,12 @@
     <template id="loading-modal-content">
       <div class="modal__content centered">
         <div class="lds-dual-ring"></div>
+      </div>
+    </template>
+    <template id="error-content">
+      <div class="modal__content centered">
+        <h1></h1>
+        <p></p>
       </div>
     </template>
 
@@ -40,9 +49,9 @@
         </p>
       </div>
       <div id="popup" class="ol-popup">
-     <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-     <div id="popup-content"></div>
- </div>
+        <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+        <div id="popup-content"></div>
+      </div>
     </section>
 
     <section id="share-controls">
@@ -58,7 +67,7 @@
     <section id="place-data">
       <form>
         <label for="address">Address</label>
-        <input type="text" />
+        <input type="text" name="address"/>
         <button type="submit">Find Place</button>
       </form>
       <button id="locate-btn">Get Current Location</button>

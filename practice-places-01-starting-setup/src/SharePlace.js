@@ -1,12 +1,18 @@
 import { Modal } from './UI/Modal.js';
 import { Map } from './UI/Map.js';
+import { getCoordsFromAddress } from './Utility/Location';
 class PlaceFinder {
   constructor() {
-    const addressForm = document.querySelector('form');
-    const locateUserBtn = document.getElementById('locate-btn');
+    this.addressForm = document.querySelector('form');
+    this.locateUserBtn = document.getElementById('locate-btn');
 
-    locateUserBtn.addEventListener('click', this.locateUserHandler.bind(this));
-    addressForm.addEventListener('submit', this.findAddressHandler.bind(this));
+    this.locateUserBtn.addEventListener(
+      'click',
+      this.locateUserHandler.bind(this)
+    );
+    this.addressForm.addEventListener('submit', (e) =>
+      this.findAddressHandler(e)
+    );
   }
 
   selectPlace(coordinates) {
@@ -49,7 +55,42 @@ class PlaceFinder {
       }
     );
   }
-  findAddressHandler() {}
+  async findAddressHandler(event) {
+    event.preventDefault();
+    /* const formData = new FormData(this.addressForm);
+    const formDataObject = Object.fromEntries(formData.entries());
+    const address = formDataObject.address */
+    const address = event.target.querySelector('input').value;
+    if (!address || address.trim().length === 0) {
+      const errorModal = new Modal(
+        'error-content',
+        'Loading location - please wait!',
+        ['Wrong Entries', 'you can not enter empty values in the Address field']
+      );
+      errorModal.show();
+      return;
+    }
+    const modal = new Modal(
+      'loading-modal-content',
+      'Loading location - please wait!'
+    );
+    modal.show();
+    try {
+      const coordinates = await getCoordsFromAddress(address);
+      this.selectPlace(coordinates);
+    } catch (err) {
+      alert(err.message);
+    }
+    modal.hide();
+  }
 }
 
 new PlaceFinder();
+
+/* export async function getAddressFromCoords(coords) {
+  return '6th Avenue'; // return any dummy address you want
+}
+
+export async function getCoordsFromAddress(address) {
+  return { lat: 47.01, lng: 33.55 }; // return any dummy coordinates you want
+} */

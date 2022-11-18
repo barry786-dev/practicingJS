@@ -59,38 +59,37 @@ export class Map {
       )
     );
     markers.getSource().addFeature(marker); */
-
-    /* Add popup when click on the marker */
     map.addLayer(markers);
 
-     const container = document.getElementById('popup');
-     const content = document.getElementById('popup-content');
-     const closer = document.getElementById('popup-closer');
+    /* Add popup when click on the marker */
+    if (document.getElementById('popup')) {
+      this.container = document.getElementById('popup');
+      this.content = document.getElementById('popup-content');
+      this.closer = document.getElementById('popup-closer');
+    }
 
-     const overlay = new ol.Overlay({
-       element: container,
-       autoPan: true,
-       autoPanAnimation: {
-         duration: 250,
-       },
-     });
-     map.addOverlay(overlay);
-
-     closer.onclick = function () {
-       overlay.setPosition(undefined);
-       closer.blur();
-       return false;
-     };
-     map.on('singleclick', function (event) {
-       if (map.hasFeatureAtPixel(event.pixel) === true) {
-         const coordinate = event.coordinate;
-
-         content.innerHTML = '<b>Hello world!</b><br />I am a popup.';
-         overlay.setPosition(coordinate);
-       } else {
-         overlay.setPosition(undefined);
-         closer.blur();
-       }
-     });
+    const overlay = new ol.Overlay({
+      element: this.container,
+      autoPan: true,
+      autoPanAnimation: {
+        duration: 250,
+      },
+    });
+    map.addOverlay(overlay);
+    /* this.closer.onclick = function () {
+      overlay.setPosition(undefined);
+     this.closer.blur();
+      return false;
+    }; */
+    map.on('click', (event) => {
+      if (map.hasFeatureAtPixel(event.pixel) === true) {
+        const coordinate = event.coordinate;
+        this.content.innerHTML = `<b>${coordinate[0]}</b><br />${coordinate[1]}`;
+        overlay.setPosition(coordinate);
+      } else {
+        overlay.setPosition(undefined);
+        this.closer.blur();
+      }
+    });
   }
 }
