@@ -1,4 +1,5 @@
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
 //const CleanPlugin = require('clean-webpack-plugin');
 //const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -14,6 +15,7 @@ module.exports = {
   //     title: 'Development',
   //   }),
   // ],
+  plugins: [new Dotenv()],
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist', 'assets', 'scripts'),

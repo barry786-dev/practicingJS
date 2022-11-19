@@ -44,7 +44,6 @@ class PlaceFinder {
           lat: successResult.coords.latitude,
           lng: successResult.coords.longitude,
         };
-        console.log(coordinates);
         this.selectPlace(coordinates);
       },
       (error) => {
@@ -77,9 +76,16 @@ class PlaceFinder {
     modal.show();
     try {
       const coordinates = await getCoordsFromAddress(address);
-      this.selectPlace(coordinates);
+      const coordinatesForOL = {
+        lat: coordinates.lat,
+        lng: coordinates.lon,
+      };
+      this.selectPlace(coordinatesForOL);
     } catch (err) {
-      alert(err.message);
+      modal.hide();
+      setTimeout(() => {
+        alert('this alert coming from 82', err.message);
+      }, 100);
     }
     modal.hide();
   }
