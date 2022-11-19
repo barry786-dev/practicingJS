@@ -6,12 +6,29 @@ class PlaceFinder {
     this.addressForm = document.querySelector('form');
     const locateUserBtn = document.getElementById('locate-btn');
     this.shareBtn = document.getElementById('share-btn');
+    this.sharedLinkInputElement = document.getElementById('share-link');
 
     locateUserBtn.addEventListener('click', this.locateUserHandler.bind(this));
-    //this.shareBtn.addEventListener('click');
+    this.shareBtn.addEventListener('click', this.sharePlaceHandler.bind(this));
     this.addressForm.addEventListener('submit', (e) =>
       this.findAddressHandler(e)
     );
+  }
+
+  sharePlaceHandler() {
+    if (!navigator.clipboard) {
+      this.sharedLinkInputElement.select();
+      return;
+    }
+    navigator.clipboard
+      .writeText(this.sharedLinkInputElement.value)
+      .then(() => {
+        alert('the address link is copied into the clipboard');
+      })
+      .catch((err) => {
+        console.log(err);
+        this.sharedLinkInputElement.select();
+      });
   }
 
   selectPlace(coordinates, address) {
@@ -20,12 +37,11 @@ class PlaceFinder {
     } else {
       this.map = new Map(coordinates);
     }
-    console.log(address)
+    console.log(address);
     this.shareBtn.disabled = false;
-    const sharedLinkInputElement = document.getElementById('share-link');
-    sharedLinkInputElement.value = `${
+    this.sharedLinkInputElement.value = `${
       location.origin
-    }/my-place?address=${encodeURI(address)}&lat=${coordinates.lat}&lat=${
+    }/my-place?address=${encodeURI(address)}&lat=${coordinates.lat}&lng=${
       coordinates.lng
     }`;
   }
@@ -48,7 +64,7 @@ class PlaceFinder {
           lat: successResult.coords.latitude,
           lng: successResult.coords.longitude,
         };
-        console.log(coordinates)
+        console.log(coordinates);
         const address = await getAddressFromCoords(coordinates);
         setTimeout(() => {
           modal.hide();
@@ -84,12 +100,14 @@ class PlaceFinder {
     );
     modal.show();
     try {
-      const coordinates = await getCoordsFromAddress(address);
+      const addressInfo = await getCoordsFromAddress(address);
+      const coordinates = addressInfo[0];
+      const fullAddress = addressInfo[1];
       const coordinatesForOL = {
         lat: coordinates.lat,
         lng: coordinates.lon,
       };
-      this.selectPlace(coordinatesForOL, address);
+      this.selectPlace(coordinatesForOL, fullAddress);
     } catch (err) {
       modal.hide();
       setTimeout(() => {

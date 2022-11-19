@@ -16,6 +16,7 @@ export async function getAddressFromCoords(coords) {
     throw new Error(data.error_message);
   }
   // const address = data.results[0].formatted_address; // google
+  console.log(data.addresses[0].address);
   const address = data.addresses[0].address.freeformAddress;
   return address;
 }
@@ -35,6 +36,8 @@ export async function getCoordsFromAddress(address) {
     throw new Error(data.error_message);
   }
   // const coordinates = data.results[0].geometry.location; // this is for google
+  console.log(data.results[0]);
   const coordinates = data.results[0].position;
-  return coordinates;
+  const fullAddress = data.results[0].address.freeformAddress;
+  return [coordinates,fullAddress];
 }
