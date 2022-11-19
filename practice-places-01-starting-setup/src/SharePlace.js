@@ -1,26 +1,33 @@
 import { Modal } from './UI/Modal.js';
 import { Map } from './UI/Map.js';
-import { getCoordsFromAddress } from './Utility/Location';
+import { getCoordsFromAddress, getAddressFromCoords } from './Utility/Location';
 class PlaceFinder {
   constructor() {
     this.addressForm = document.querySelector('form');
-    this.locateUserBtn = document.getElementById('locate-btn');
+    const locateUserBtn = document.getElementById('locate-btn');
+    this.shareBtn = document.getElementById('share-btn');
 
-    this.locateUserBtn.addEventListener(
-      'click',
-      this.locateUserHandler.bind(this)
-    );
+    locateUserBtn.addEventListener('click', this.locateUserHandler.bind(this));
+    //this.shareBtn.addEventListener('click');
     this.addressForm.addEventListener('submit', (e) =>
       this.findAddressHandler(e)
     );
   }
 
-  selectPlace(coordinates) {
+  selectPlace(coordinates, address) {
     if (this.map) {
       this.map.render(coordinates);
     } else {
       this.map = new Map(coordinates);
     }
+    console.log(address)
+    this.shareBtn.disabled = false;
+    const sharedLinkInputElement = document.getElementById('share-link');
+    sharedLinkInputElement.value = `${
+      location.origin
+    }/my-place?address=${encodeURI(address)}&lat=${coordinates.lat}&lat=${
+      coordinates.lng
+    }`;
   }
 
   locateUserHandler() {
@@ -36,15 +43,17 @@ class PlaceFinder {
     );
     modal.show();
     navigator.geolocation.getCurrentPosition(
-      (successResult) => {
-        setTimeout(() => {
-          modal.hide();
-        }, 1000);
+      async (successResult) => {
         const coordinates = {
           lat: successResult.coords.latitude,
           lng: successResult.coords.longitude,
         };
-        this.selectPlace(coordinates);
+        console.log(coordinates)
+        const address = await getAddressFromCoords(coordinates);
+        setTimeout(() => {
+          modal.hide();
+        }, 1000);
+        this.selectPlace(coordinates, address);
       },
       (error) => {
         modal.hide();
@@ -80,11 +89,11 @@ class PlaceFinder {
         lat: coordinates.lat,
         lng: coordinates.lon,
       };
-      this.selectPlace(coordinatesForOL);
+      this.selectPlace(coordinatesForOL, address);
     } catch (err) {
       modal.hide();
       setTimeout(() => {
-        alert('this alert coming from 82', err.message);
+        alert(err.message);
       }, 100);
     }
     modal.hide();
