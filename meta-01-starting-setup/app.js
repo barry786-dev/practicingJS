@@ -107,3 +107,52 @@ console.log(course.price);
 Reflect.deleteProperty(course, 'rating');
 
 // ---- Proxy API ----
+const courseHandler = {
+  get(obj, propertyName) {
+    console.log(propertyName);
+    if (propertyName === 'length') {
+      return 0;
+    }
+    return obj[propertyName] || 'NOT FOUND';
+  },
+  set(obj, propertyName, newValue) {
+    console.log('Setting value...', propertyName, newValue);
+    if (propertyName === 'rating') {
+      return;
+    }
+    obj[propertyName] = newValue;
+  },
+  deleteProperty(target, key) {
+    if (!(key in target)) {
+      return false;
+    }
+    return target.removeItem(key);
+  },
+  ownKeys(target) {
+    return target.keys();
+  },
+  has(target, key) {
+    return key in target || target.hasItem(key);
+  },
+  defineProperty(target, key, descriptor) {
+    if (descriptor && 'value' in descriptor) {
+      target.setItem(key, descriptor.value);
+    }
+    return target;
+  },
+  getOwnPropertyDescriptor(target, key) {
+    const value = target.getItem(key);
+    return value
+      ? {
+          value,
+          writable: true,
+          enumerable: true,
+          configurable: false,
+        }
+      : undefined;
+  },
+};
+
+const pCourse = new Proxy(course, courseHandler)
+pCourse.love = true; // set
+console.log(pCourse.title, pCourse.rating , pCourse.love); // get
