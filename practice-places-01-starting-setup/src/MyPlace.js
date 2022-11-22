@@ -15,9 +15,10 @@ const queryParams = url.searchParams;
 // const address = queryParams.get('address');
 const locId = queryParams.get('location');
 fetch(`http://localhost:3000/location/${locId}`)
-  .then((res) => {
+  .then(async (res) => {
     if (res.status === 404) {
-      throw new Error('Could not find location');
+      const response = await res.json();
+      throw new Error(response.message);
     } else {
       return res.json();
     } // end if
@@ -27,6 +28,6 @@ fetch(`http://localhost:3000/location/${locId}`)
   })
   .catch((err) => {
     alert(err.message);
-    location.href = '/';
+    // location.href = '/';
   });
 // new LoadedPlace(coords, address);

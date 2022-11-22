@@ -19,9 +19,13 @@ router.post('/location', (req, res) => {
 });
 
 router.get('/location/:lid', (req, res) => {
-  const location = locationStorage.locations.find((loc) => { 
+  const location = locationStorage.locations.find((loc) => {
     return loc.id === req.params.lid;
   });
+  if (!location) {
+    console.log(new Date().toLocaleString(), 'Location not found');
+    return res.status(404).json({ message: 'Could not find location' });
+  }
   res.json({ address: location.address, coords: location.coords });
 });
 
