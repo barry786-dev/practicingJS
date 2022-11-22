@@ -8,9 +8,25 @@ class LoadedPlace {
 }
 const url = new URL(location.href);
 const queryParams = url.searchParams;
-const coords = {
-  lat: parseFloat(queryParams.get('lat')),
-  lng: +queryParams.get('lng'),
-};
-const address = queryParams.get('address');
-new LoadedPlace(coords, address);
+// const coords = {
+//   lat: parseFloat(queryParams.get('lat')),
+//   lng: +queryParams.get('lng'),
+// };
+// const address = queryParams.get('address');
+const locId = queryParams.get('location');
+fetch(`http://localhost:3000/location/${locId}`)
+  .then((res) => {
+    if (res.status === 404) {
+      throw new Error('Could not find location');
+    } else {
+      return res.json();
+    } // end if
+  })
+  .then((data) => {
+    new LoadedPlace(data.coords, data.address);
+  })
+  .catch((err) => {
+    alert(err.message);
+    location.href = '/';
+  });
+// new LoadedPlace(coords, address);
