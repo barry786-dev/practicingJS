@@ -1,10 +1,32 @@
 const http = require('http');
 
 const server = http.createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/html' });
-  res.end('<h1>Hello World</h1>');
- // res.end('Hello World from Node.js');
+  let body = [];
+  console.log(req.method, req.url);
+  req
+    .on('data', (chunk) => {
+      body.push(chunk);
+      console.log('chunk:', chunk);
+    })
+    .on('end', () => {
+      body = Buffer.concat(body).toString();
+      console.log('body:', body);
+      let message = 'Unknown';
+      if (body) {
+        message = body.split('=')[1];
+      }
+      console.log('message:', message);
+
+      res.writeHead(200, { 'Content-Type': 'text/html' });
+      res.write(
+        `<h1> Hi ${message}</h1><form action="message" method="POST"><input type="text" name="message"><button type="submit">Send</button></form>`
+      );
+      // res.end('<h1>Hello World</h1>');
+      // res.end('Hello World from Node.js');
+      res.end();
+    });
 });
+
 server.listen(3000, 'localhost', () => {
   console.log('Server running at http://localhost:3000/');
 });
