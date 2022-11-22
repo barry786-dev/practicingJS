@@ -22,7 +22,11 @@ app.use((req, res, next) => {
     ? req.body
     : { message: 'unknown' };
   console.log('message:', message);
-  res.render('index', { message });
+  res.send(` <h1>Hello ${message}</h1>
+    <form action="" method="POST">
+      <input type="text" name="message" />
+      <button type="submit">Send</button>
+    </form>`);
 });
 
 const server = app.listen(3000, () => {});
