@@ -6,7 +6,7 @@ const app = express();
 const whitelist = ['http://localhost:9000', 'http://example2.com'];
 const corsOptions = {
   origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -27,4 +27,6 @@ app.use(cors(corsOptions));
 
 app.use(locationRoutes);
 
-const server = app.listen(3000, () => {});
+const server = app.listen(3000, () => {
+  console.log('Server is running on port 3000');
+});
