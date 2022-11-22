@@ -38,6 +38,29 @@ class PlaceFinder {
       this.map = new Map(coordinates);
     }
     console.log(address);
+    fetch(
+      `http://localhost:3000/location?address=${encodeURI(address)}&lat=${
+        coordinates.lat
+      }&lng=${coordinates.lng}`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          address: address,
+          lat: coordinates.lat,
+          lng: coordinates.lng,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+      });
+
     this.shareBtn.disabled = false;
     this.sharedLinkInputElement.value = `${
       location.origin

@@ -2,8 +2,8 @@ const express = require('express');
 
 const app = express();
 
-// app.set('view engine', 'ejs');
-// app.set('views', 'views');
+app.set('view engine', 'ejs');
+app.set('views', 'views');
 
 // parse request
 app.use(express.json());
@@ -22,11 +22,7 @@ app.use((req, res, next) => {
     ? req.body
     : { message: 'unknown' };
   console.log('message:', message);
-  res.send(` <h1>Hello ${message}</h1>
-    <form action="" method="POST">
-      <input type="text" name="message" />
-      <button type="submit">Send</button>
-    </form>`);
+  res.render('index', { message });
 });
 
 const server = app.listen(3000, () => {});

@@ -1,28 +1,30 @@
 const express = require('express');
+let cors = require('cors');
+const locationRoutes = require('./routes/location');
 
 const app = express();
-
-app.set('view engine', 'ejs');
-app.set('views', 'views');
+const whitelist = ['http://localhost:9000', 'http://example2.com'];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+};
 
 // parse request
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-app.use((req, res, next) => {
-  res.status(200);
-  res.setHeader('Content-Type', 'text/html');
+app.use(cors(corsOptions));
+/* app.use((req, res, next) => { 
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:9000');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   next();
-});
+}); */
 
-app.use((req, res, next) => {
-  console.log(req.method, req.url);
-  console.log('body:', req.body);
-  const { message } = Object.keys(req.body).length
-    ? req.body
-    : { message: 'unknown' };
-  console.log('message:', message);
-  res.render('index', { message });
-});
+app.use(locationRoutes);
 
 const server = app.listen(3000, () => {});
