@@ -18,7 +18,7 @@ fetch(`http://localhost:3000/location/${locId}`)
   .then(async (res) => {
     if (res.status === 404) {
       const response = await res.json();
-      throw new Error(response.message);
+      throw new Error(`${response.message} :>>> ${response.err}`);
     } else {
       return res.json();
     } // end if

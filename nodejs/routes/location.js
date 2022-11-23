@@ -96,8 +96,10 @@ router.get('/location/:lid', async (req, res) => {
     }
     res.json({ address: location.address, coords: location.coords });
   } catch (e) {
-    console.error(e);
-    res.status(404).json({ message: 'location failed to be found!', err: e });
+    console.error(e.message);
+    res
+      .status(404)
+      .json({ message: 'location failed to be found!', err: e.message });
   } finally {
     await client.close();
   }
