@@ -11,12 +11,13 @@ class LoadedPlace {
 }
 const url = new URL(location.href);
 const queryParams = url.searchParams;
-// const coords = {
-//   lat: parseFloat(queryParams.get('lat')),
-//   lng: +queryParams.get('lng'),
-// };
-// const address = queryParams.get('address');
-const locId = queryParams.get('location');
+
+const coords = {
+  lat: parseFloat(queryParams.get('lat')),
+  lng: +queryParams.get('lng'),
+};
+const address = queryParams.get('address');
+/* const locId = queryParams.get('location');
 fetch(`http://localhost:3000/location/${locId}`)
   .then(async (res) => {
     if (res.status === 404) {
@@ -32,5 +33,6 @@ fetch(`http://localhost:3000/location/${locId}`)
   .catch((err) => {
     alert(err.message);
     // location.href = '/';
-  });
-// new LoadedPlace(coords, address);
+  }); */
+
+new LoadedPlace(coords, address);

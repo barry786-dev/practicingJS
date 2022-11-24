@@ -1,27 +1,23 @@
 const path = require('path');
 const Dotenv = require('dotenv-webpack');
 //const CleanPlugin = require('clean-webpack-plugin');
-//const HtmlWebpackPlugin = require('html-webpack-plugin');
+// const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'development',
   entry: {
-    SharePlace: './src/SharePlace.js',
-    MyPlace: './src/MyPlace.js',
+    'SharePlace': './src/SharePlace.js',
+    'MyPlace': './src/MyPlace.js',
   },
-  // plugins: [
-  //   new HtmlWebpackPlugin({
-  //     title: 'Output Management',
-  //     title: 'Development',
-  //   }),
-  // ],
-  plugins: [new Dotenv()],
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist', 'assets', 'scripts'),
     publicPath: '/assets/scripts',
     clean: true,
   },
+  plugins: [
+    new Dotenv(),
+  ],
   target: 'web',
   devServer: {
     static: {

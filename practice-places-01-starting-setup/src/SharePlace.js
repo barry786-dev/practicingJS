@@ -38,7 +38,7 @@ class PlaceFinder {
       this.map = new Map(coordinates);
     }
     console.log(address);
-    fetch(
+    /* fetch(
       `http://localhost:3000/location?address=${encodeURI(address)}&lat=${
         coordinates.lat
       }&lng=${coordinates.lng}`,
@@ -62,14 +62,14 @@ class PlaceFinder {
         const locationId = data.locId;
         this.shareBtn.disabled = false;
         this.sharedLinkInputElement.value = `${location.origin}/my-place?location=${locationId}`;
-      });
+      }); */
 
-    // this.shareBtn.disabled = false;
-    // this.sharedLinkInputElement.value = `${
-    //   location.origin
-    // }/my-place?address=${encodeURI(address)}&lat=${coordinates.lat}&lng=${
-    //   coordinates.lng
-    // }`;
+    this.shareBtn.disabled = false;
+    this.sharedLinkInputElement.value = `${
+      location.origin
+    }/my-place?address=${encodeURI(address)}&lat=${coordinates.lat}&lng=${
+      coordinates.lng
+    }`;
   }
 
   locateUserHandler() {

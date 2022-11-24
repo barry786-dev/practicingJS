@@ -18,5 +18,6 @@
     "titleBar.inactiveBackground": "#42b88399",
     "titleBar.inactiveForeground": "#15202b99"
   },
-  "peacock.remoteColor": "#42b883"
+  "peacock.remoteColor": "#42b883",
+  "livePreview.defaultPreviewPath": "/home/barry/Desktop/js/practice-places-01-starting-setup/dist/assets/scripts/index.html"
 }
