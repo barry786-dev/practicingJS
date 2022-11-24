@@ -1,12 +1,14 @@
 const express = require('express');
 const { MongoClient, ObjectId } = require('mongodb');
+require('dotenv').config();
 
 const router = express.Router();
 /**
  * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
  * See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
  */
-const dataUrl = `mongodb+srv://barry:300@cluster0.ws45o9e.mongodb.net/locations?retryWrites=true&w=majority`;
+
+const dataUrl = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.ws45o9e.mongodb.net/locations?retryWrites=true&w=majority`;
 const client = new MongoClient(dataUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
