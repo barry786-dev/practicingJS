@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const CleanPlugin = require('clean-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -12,9 +13,10 @@ module.exports = {
   output: {
     filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist', 'assets', 'scripts'),
-    publicPath: 'dist/assets/scripts/',
+    publicPath: '/assets/scripts/',
+    clean: true,
   },
-  devtool: 'cheap-source-map',
+  devtool: 'cheap-module-source-map',
   module: {
     rules: [
       {
@@ -49,6 +51,9 @@ module.exports = {
       template: './src/my-place/index.html',
       filename: '../../my-place/index.html',
       title: 'env.project',
+    }),
+    new webpack.SourceMapDevToolPlugin({
+      filename: '[name].[contenthash].js.map',
     }),
     new CleanPlugin.CleanWebpackPlugin(),
   ],

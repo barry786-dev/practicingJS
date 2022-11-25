@@ -1,13 +1,13 @@
 const path = require('path');
 const Dotenv = require('dotenv-webpack');
-//const CleanPlugin = require('clean-webpack-plugin');
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
+// const CleanPlugin = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'development',
   entry: {
-    'SharePlace': './src/SharePlace.js',
-    'MyPlace': './src/MyPlace.js',
+    SharePlace: './src/SharePlace.js',
+    MyPlace: './src/MyPlace.js',
   },
   output: {
     filename: '[name].js',
@@ -17,13 +17,27 @@ module.exports = {
   },
   plugins: [
     new Dotenv(),
+    new HtmlWebpackPlugin({
+      inject: true,
+      chunks: ['SharePlace'],
+      template: './src/index.html',
+      filename: '../../index.html',
+      title: 'env.project',
+    }),
+    new HtmlWebpackPlugin({
+      inject: true,
+      chunks: ['MyPlace'],
+      template: './src/my-place/index.html',
+      filename: '../../my-place/index.html',
+      title: 'env.project',
+    }),
   ],
   target: 'web',
   devServer: {
     static: {
       directory: './dist',
     },
-    watchFiles: ['./src/**/*.js'],
+    watchFiles: ['./src/**/*.js', './src/**/*.html'],
     hot: false,
     open: true,
     historyApiFallback: true,
