@@ -1,37 +1,18 @@
 const path = require('path');
-const Dotenv = require('dotenv-webpack');
-// const CleanPlugin = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanPlugin = require('clean-webpack-plugin');
 
 module.exports = {
   mode: 'development',
   entry: {
-    SharePlace: './src/SharePlace.js',
-    MyPlace: './src/MyPlace.js',
+    shop: './src/non-optimized/shop.js',
   },
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist', 'assets', 'scripts'),
-    publicPath: '/assets/scripts',
+    publicPath: 'assets/scripts/',
     clean: true,
   },
-  plugins: [
-    new Dotenv(),
-    new HtmlWebpackPlugin({
-      inject: true,
-      chunks: ['SharePlace'],
-      template: './src/index.html',
-      filename: '../../index.html',
-      title: 'env.project',
-    }),
-    new HtmlWebpackPlugin({
-      inject: true,
-      chunks: ['MyPlace'],
-      template: './src/my-place/index.html',
-      filename: '../../my-place/index.html',
-      title: 'env.project',
-    }),
-  ],
+  devtool: 'source-map',
   target: 'web',
   devServer: {
     static: {
@@ -48,10 +29,9 @@ module.exports = {
     hot: false,
     open: true,
     historyApiFallback: true,
-    port: 9000,
+    port: 7000,
     compress: true,
   },
-  devtool: 'cheap-module-source-map',
   module: {
     rules: [
       {
@@ -71,5 +51,5 @@ module.exports = {
       },
     ],
   },
-  // plugins: [new CleanPlugin.CleanWebpackPlugin()],
+  plugins: [new CleanPlugin.CleanWebpackPlugin()],
 };
