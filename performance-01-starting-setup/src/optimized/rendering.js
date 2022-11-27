@@ -1,8 +1,11 @@
+const renderedProducts = []
+
 export function renderProducts(products, deleteProductFn) {
   const productListEl = document.getElementById('product-list');
   if (products.length > 1) {
     productListEl.innerHTML = '';
   }
+  const start = performance.now();
   products.forEach((product) => {
     const newListEl = document.createElement('li');
     // const prodTitleEl = document.createElement('h2');
@@ -33,7 +36,10 @@ export function renderProducts(products, deleteProductFn) {
       //productListEl.insertBefore(newListEl, productListEl.firstChild);
       productListEl.insertAdjacentElement('afterbegin', newListEl);
     }
+    renderedProducts.push(newListEl); // will lead to memory leak, as there is reference to this element then js engine can't garbage collect it even when we delete it from DOM
   });
+  const end = performance.now();
+  console.log(`Rendering ${products.length} products took ${end - start} ms`);
 }
 
 export function updateProducts(product, prodId, deleteProductFn, isAdding) {

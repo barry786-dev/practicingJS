@@ -16,23 +16,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _rendering__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./rendering */ "./src/optimized/rendering.js");
 
 
-let products = _products__WEBPACK_IMPORTED_MODULE_0__.products;
+const titleEl = document.getElementById('title');
+const priceEl = document.getElementById('price');
 function deleteProduct(prodId) {
-  const updatedProducts = [];
-  let productToDelete;
-  for (const prod of products) {
-    if (prod.id !== prodId) {
-      updatedProducts.push(prod);
-    } else {
-      productToDelete = prod;
-    }
-  }
-  products = updatedProducts;
+  const productToDeleteIndex = _products__WEBPACK_IMPORTED_MODULE_0__.products.findIndex(p => p.id === prodId);
+  const [productToDelete] = _products__WEBPACK_IMPORTED_MODULE_0__.products.splice(productToDeleteIndex, 1);
   (0,_rendering__WEBPACK_IMPORTED_MODULE_1__.updateProducts)(productToDelete, prodId, null, false);
 }
 function addProduct() {
-  const titleEl = document.querySelector('#new-product #title');
-  const priceEl = document.querySelector('#new-product #price');
   const title = titleEl.value;
   const price = priceEl.value;
   if (title.trim().length === 0 || price.trim().length === 0 || +price < 0) {
@@ -44,7 +35,7 @@ function addProduct() {
     title: title,
     price: price
   };
-  products.unshift(newProduct);
+  _products__WEBPACK_IMPORTED_MODULE_0__.products.unshift(newProduct);
   (0,_rendering__WEBPACK_IMPORTED_MODULE_1__.updateProducts)(newProduct, newProduct.id, deleteProduct, true);
   //renderProducts(products, deleteProduct);
 }

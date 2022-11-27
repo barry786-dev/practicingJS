@@ -235,11 +235,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "renderProducts": () => (/* binding */ renderProducts),
 /* harmony export */   "updateProducts": () => (/* binding */ updateProducts)
 /* harmony export */ });
+const renderedProducts = [];
 function renderProducts(products, deleteProductFn) {
   const productListEl = document.getElementById('product-list');
   if (products.length > 1) {
     productListEl.innerHTML = '';
   }
+  const start = performance.now();
   products.forEach(product => {
     const newListEl = document.createElement('li');
     // const prodTitleEl = document.createElement('h2');
@@ -265,7 +267,11 @@ function renderProducts(products, deleteProductFn) {
       //productListEl.insertBefore(newListEl, productListEl.firstChild);
       productListEl.insertAdjacentElement('afterbegin', newListEl);
     }
+    renderedProducts.push(newListEl); // will lead to memory leak, as there is reference to this element then js engine can't garbage collect it even when we delete it from DOM
   });
+
+  const end = performance.now();
+  console.log(`Rendering ${products.length} products took ${end - start} ms`);
 }
 function updateProducts(product, prodId, deleteProductFn, isAdding) {
   if (isAdding) {
@@ -2865,7 +2871,7 @@ module.exports.formatError = function (err) {
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => ("7ac1573ffec063da1e2f")
+/******/ 		__webpack_require__.h = () => ("d7fce14d0cf22f1d9fa7")
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
