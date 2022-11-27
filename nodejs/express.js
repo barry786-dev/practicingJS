@@ -29,4 +29,9 @@ app.use((req, res, next) => {
     </form>`);
 });
 
+// GET request to /favicon.ico -- browser make GET requests by default
+app.get('/favicon.ico', (req, res) => {
+    res.status(200).send('ok');
+});
+
 const server = app.listen(3000, () => {});
