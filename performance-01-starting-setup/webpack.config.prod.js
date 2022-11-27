@@ -4,7 +4,7 @@ const path = require('path');
 module.exports = {
   mode: 'production',
   entry: {
-    shop: './src/non-optimized/shop.js',
+    shop: './src/optimized/shop.js',
   },
   output: {
     filename: '[name].js',

@@ -4,7 +4,7 @@ const CleanPlugin = require('clean-webpack-plugin');
 module.exports = {
   mode: 'development',
   entry: {
-    shop: './src/non-optimized/shop.js',
+    shop: './src/optimized/shop.js',
   },
   output: {
     filename: '[name].js',
@@ -12,7 +12,7 @@ module.exports = {
     publicPath: 'assets/scripts/',
     clean: true,
   },
-  devtool: 'source-map',
+  devtool: 'cheap-module-source-map',
   target: 'web',
   devServer: {
     static: {
@@ -21,7 +21,7 @@ module.exports = {
     devMiddleware: {
       index: true,
       mimeTypes: { phtml: 'text/html' },
-      publicPath: '/publicPathForDevServe',
+      publicPath: '/assets/scripts/',
       serverSideRender: true,
       writeToDisk: true,
     },
