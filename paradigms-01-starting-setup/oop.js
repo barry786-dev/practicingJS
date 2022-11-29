@@ -39,7 +39,7 @@ class UserInputForm {
       !Validator.validate(enteredPassword, Validator.MIN_LENGTH, 5)
     ) {
       alert(
-        'Invalid input - username or password must not be empty. and password must be at least 5 characters.'
+        'Invalid input - username or password must not be empty, and password must be at least 5 characters.'
       );
       return;
     }
