@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      div {
+        border: 2px solid red;
+      }
+    </style>
+    <title>Web Component</title>
+    <script src="tooltip.js" type="module" defer></script>
+    <script src="confirm-link.js"></script>
+  </head>
+  <body>
+    <template id="tooltip-template">
+      <slot></slot>
+      <span> (?) </span>
+    </template>
+    <p>
+      My name is Mohamed Barry, I come from
+      <barry-tooltip message="Jordan message">JOR</barry-tooltip>
+      our money is,
+      <barry-tooltip message="Jordanian pound">Dinar</barry-tooltip>
+      , this country is in
+      <barry-tooltip message="Middle east">MD</barry-tooltip>
+      , I am a
+      <barry-tooltip message="web developer">WD</barry-tooltip>
+      working in company called <barry-tooltip message="">IT</barry-tooltip>
+    </p>
+    <div>This does not get the web Component styles!</div>
+    <a is="barry-confirm-link" href="http://google.com">google</a>
+  </body>
+</html>
