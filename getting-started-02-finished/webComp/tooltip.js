@@ -14,12 +14,12 @@ class Tooltip extends HTMLElement {
       color: '#fff',
       position: 'absolute',
       zIndex: '10',
-      top: '1.5rem',
-      left: '0.75rem',
+      top: '2.5rem',
+      left: '1.75rem',
       borderRadius: '3px',
       padding: '0.15rem 0.5rem',
       boxShadow: '1px 1px 6px rgba(0,0,0,0.26)',
-      fontSize: '0.75rem',
+      fontSize: '1.20rem',
       fontWeight: 'normal',
       width: '70px',
       textAlign: 'center',
@@ -29,9 +29,26 @@ class Tooltip extends HTMLElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true)); */
     this.shadowRoot.innerHTML = `
       <style>
+      span {
+        background-color: black;
+        color: white;
+        border-radius: 50%;
+        padding: 0.3rem 0.5rem;
+        font-size: 0.75rem;
+        text-align: center;
+      }
+      ::slotted(span) { /* style the tooltip slots conditionally*/
+        text-decoration: underline dotted;
+      }
+      :host(.important) ::slotted(span) { /* style conditionally the tooltip if it has a class*/
+        background-color: var(--color-primary, #ccc);
+      }
+      :host-context(p){ /* style conditionally the tooltip if it is a child of a p tag*/
+        font-weight: bold;
+      }
       </style>
       <slot>Some default</slot>
-      <span> (?)</span>
+      <span>?</span>
     `;
     this._tooltipIcon = this.shadowRoot.querySelector('span');
   }
